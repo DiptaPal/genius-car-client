@@ -7,9 +7,10 @@ import { BiShoppingBag } from "react-icons/bi";
 const Header = () => {
     const menuItems = <>
         <li><Link to='/' className='font-semibold'>Home</Link></li>
-        <li><Link to='/service' className='font-semibold'>Services</Link></li>
-        <li><Link to='/' className='font-semibold'>Blog</Link></li>
-        <li><Link to='/' className='font-semibold'>Contact</Link></li>
+        <li><Link to='/about' className='font-semibold'>About</Link></li>
+        <li><Link to='/services' className='font-semibold'>Services</Link></li>
+        <li><Link to='/blog' className='font-semibold'>Blog</Link></li>
+        <li><Link to='/contact' className='font-semibold'>Contact</Link></li>
         <li><Link><BiShoppingBag className='text-lg'></BiShoppingBag></Link></li>
         <li><Link><BsSearch className='text-lg'></BsSearch></Link></li>
     </>
@@ -34,7 +35,7 @@ const Header = () => {
                 </ul>
             </div>
             <div className="navbar-end">
-                <Link>
+                <Link to='contact'>
                     <button className="btn btn-outline font-semibold btn-error">Appointment</button>
                 </Link>
             </div>
