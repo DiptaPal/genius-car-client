@@ -16,7 +16,7 @@ const Register = () => {
         .then(result => {
             console.log(result.user);
         })
-        .catch(error => console.log(error.massage))
+        .catch(error => console.log(error.message))
     }
 
     const signUpWithGoogle = () =>{
@@ -24,7 +24,7 @@ const Register = () => {
         .then(result =>{
             console.log(result.user);
         })
-        .catch(error => console.log(error.massage))
+        .catch(error => console.log(error.message))
     }
     return (
         <div className='flex justify-center items-center'>

@@ -1,16 +1,34 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React,{useContext} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../../assets/logo1.svg';
 import { BsSearch } from "react-icons/bs";
 import { BiShoppingBag } from "react-icons/bi";
+import { AuthContext } from '../../../context/AuthProvider/AuthProvider';
 
 const Header = () => {
+    const navigate = useNavigate();
+    const {user, logout} = useContext(AuthContext)
+    const handleLogout = () =>{
+        logout()
+        .then(() => {
+            navigate('/')
+        })
+        .catch(error => console.log(error.message))
+    }
     const menuItems = <>
         <li><Link to='/' className='font-semibold'>Home</Link></li>
         <li><Link to='/about' className='font-semibold'>About</Link></li>
         <li><Link to='/services' className='font-semibold'>Services</Link></li>
         <li><Link to='/blog' className='font-semibold'>Blog</Link></li>
         <li><Link to='/contact' className='font-semibold'>Contact</Link></li>
+        <li>
+            {
+                user?.uid ? 
+                <Link onClick={handleLogout} className='font-semibold'>Logout</Link>
+                :
+                <Link to='/login' className='font-semibold'>Login</Link> 
+            }
+        </li>
         <li><Link><BiShoppingBag className='text-lg'></BiShoppingBag></Link></li>
         <li><Link><BsSearch className='text-lg'></BsSearch></Link></li>
     </>

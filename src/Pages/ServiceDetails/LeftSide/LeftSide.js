@@ -1,9 +1,10 @@
 import React from 'react';
 import { AiOutlineArrowRight } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
 import downIcon from '../../../assets/icons/Download.svg'
 import logo from '../../../assets/logo.svg'
 
-const LeftSide = ({price}) => {
+const LeftSide = ({ price, id }) => {
     return (
         <div>
             <div className='bg-slate-200 rounded-lg p-10 mb-8'>
@@ -71,7 +72,7 @@ const LeftSide = ({price}) => {
                     </div>
                 </div>
             </div>
-            
+
             <div className='bg-black rounded-lg p-10 mb-8 pb-16 text-white flex flex-col gap-5 justify-center items-center'>
                 <img src={logo} alt="" />
                 <p className='text-2xl font-semibold text-center'>Need Help? We Are Here <br />To Help You</p>
@@ -85,7 +86,9 @@ const LeftSide = ({price}) => {
             </div>
 
             <h2 className='mb-8 text-3xl font-bold'>Price ${price}</h2>
-            <button className='w-full rounded-md bg-red-500 text-white py-3'>Proceed Checkout</button>
+            <Link to={`/checkout/${id}`}>
+                <button className='w-full rounded-md bg-red-500 text-white py-3'>Proceed Checkout</button>
+            </Link>
         </div>
     );
 };
