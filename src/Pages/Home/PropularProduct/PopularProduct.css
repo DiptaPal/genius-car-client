@@ -1,0 +1,4 @@
+.hover_effect:hover .icon_effect{
+    display: block;
+    transition: display 5s ease-in-out;
+}

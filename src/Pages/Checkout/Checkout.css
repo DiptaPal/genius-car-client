@@ -1,0 +1,14 @@
+.bg-image-blur::after{
+    background: linear-gradient(90deg, #151515 0%, rgba(21, 21, 21, 0) 100%);
+    border-radius: 12px;
+    content: "";
+    display: inline-block;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+.clipper{
+    clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+}
