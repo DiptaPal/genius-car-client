@@ -1,10 +1,11 @@
-import React,{useContext} from 'react';
+import React, { useContext } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { setAuthToken } from '../../api/auth';
 import loginLogo from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 
 const Register = () => {
-    const {createUser, handleGoogle} = useContext(AuthContext)
+    const { createUser, handleGoogle } = useContext(AuthContext)
     const navigate = useNavigate();
     const location = useLocation();
     let from = location.state?.from?.pathname || "/";
@@ -14,19 +15,21 @@ const Register = () => {
         const email = form.email.value;
         const password = form.password.value;
 
-        createUser(email,password)
-        .then(result => {
-            form.reset();
-        })
-        .catch(error => console.log(error.message))
+        createUser(email, password)
+            .then(result => {
+                form.reset();
+                navigate(from, { replace: true })    
+            })
+            .catch(error => console.log(error.message))
     }
 
-    const signUpWithGoogle = () =>{
+    const signUpWithGoogle = () => {
         handleGoogle()
-        .then(result =>{
-            navigate(from, { replace: true })
-        })
-        .catch(error => console.log(error.message))
+            .then(result => {
+                const user = result.user;
+                setAuthToken(user)
+            })
+            .catch(error => console.log(error.message))
     }
     return (
         <div className='flex justify-center items-center'>
