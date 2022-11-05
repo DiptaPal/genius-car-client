@@ -1,35 +1,57 @@
-import React,{useContext} from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import loginLogo from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 
 const Login = () => {
-    const {login, handleGoogle} = useContext(AuthContext)
-    const handleLogin = event =>{
+    const { login, handleGoogle } = useContext(AuthContext)
+    const navigate = useNavigate();
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
+
+    const handleLogin = event => {
         event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
-        
+
         login(email, password)
-        .then(result => {
-            console.log(result.user);
-        })
-        .catch(error => console.log(error.message))
+            .then(result => {
+
+                const currentUser = {
+                    email: result.user.email
+                }
+
+                //get jwt token
+                fetch('http://localhost:5000/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type' : 'application/json'
+                    },
+                    body: JSON.stringify(currentUser)
+                })
+                .then(res => res.json())
+                .then(data => {
+                    //local storage is the easiest but not the best place to store jwt token
+                    localStorage.setItem('genius-token',data.token)
+                    navigate(from, { replace: true })
+                })
+            })
+            .catch(error => console.log(error.message))
     }
 
-    const signUpWithGoogle = () =>{
+    const signUpWithGoogle = () => {
         handleGoogle()
-        .then(result =>{
-            console.log(result.user);
-        })
-        .catch(error => console.log(error.message))
+            .then(result => {
+                navigate(from, { replace: true })
+            })
+            .catch(error => console.log(error.message))
     }
     return (
         <div className='flex justify-center items-center'>
             <div className='flex flex-col md:flex-row items-center justify-around gap-16 my-20 px-6'>
                 <div>
-                    <img src={loginLogo} alt=""  className='object-cover'/>
+                    <img src={loginLogo} alt="" className='object-cover' />
                 </div>
                 <div>
                     <div className="w-full max-w-md px-8 py-16 space-y-3 rounded-xl border text-gray-800">

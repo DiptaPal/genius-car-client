@@ -15,9 +15,8 @@ const RightSide = ({ service }) => {
             <div className='grid grid-cols-12 gap-4'>
                 {
                     facility.map((fact, i) =>
-                        <div className='col-span-12 md:col-span-6 p-10 bg-slate-200 rounded-md border-t-2 border-red-500'>
+                        <div className='col-span-12 md:col-span-6 p-10 bg-slate-200 rounded-md border-t-2 border-red-500' key={i}>
                             <OurService
-                                key={i}
                                 fact={fact}
                             ></OurService>
                         </div>)

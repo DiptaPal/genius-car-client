@@ -1,15 +1,17 @@
-import React,{useContext} from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { Link, useLoaderData, useNavigate } from 'react-router-dom';
 import './Checkout.css'
 import img1 from '../../assets/images/checkout/checkout.png';
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 
 const Checkout = () => {
     const server = useLoaderData();
-    const {user} = useContext(AuthContext)
-    const {title, _id, price} = server;
+    const { user } = useContext(AuthContext)
+    const { title, _id, price } = server;
 
-    const handlePlaceOrder = event =>{
+    const navigate = useNavigate();
+
+    const handlePlaceOrder = event => {
         event.preventDefault();
         const form = event.target;
         const name = `${form.first_name.value} ${form.last_name.value}`;
@@ -17,15 +19,37 @@ const Checkout = () => {
         const message = form.message.value;
         const phone = form.phone.value;
         const order = {
-            server: _id,
-            serverName: title,
+            service: _id,
+            serviceName: title,
             price: price,
             customer: name,
             email,
             phone,
             message,
         }
-        console.log(order);
+        if (phone.length > 11) {
+            alert('Phone number should be 10 character or longer')
+        }
+        else {
+            fetch('http://localhost:5000/orders', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    authorization: `Bearer ${localStorage.getItem('genius-token')}`
+                },
+                body: JSON.stringify(order)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    if(data.acknowledged){
+                        alert('Order Placed successfully')
+                        form.reset();
+                        navigate('/orders')
+                    }
+                })
+                .catch(error => console.log(error.message))
+        }
 
     }
     return (
@@ -35,8 +59,9 @@ const Checkout = () => {
                     <div className='bg-image-blur'>
                         <img src={img1} className='w-full h-[300px] object-cover object-center rounded-xl' alt="" />
                     </div>
-                    <div className='absolute top-[42%] left-6 md:left-16'>
+                    <div className='absolute top-[39%] left-6 md:left-16'>
                         <p className='text-xl md:text-4xl font-bold text-white'>{title}</p>
+                        <p className='text-base md:text-3xl font-bold text-white'>{price}</p>
                     </div>
                     <div className='absolute clipper px-6 sm:px-10 left-14 sm:left-[39%] py-4 lg:px-16 text-center text-base md:text-xl bottom-0 bg-red-500'>
                         <Link to='/home' className='text-white'>Home</Link>

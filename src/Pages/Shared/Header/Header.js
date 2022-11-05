@@ -23,13 +23,13 @@ const Header = () => {
         <li><Link to='/contact' className='font-semibold'>Contact</Link></li>
         <li>
             {
-                user?.uid ? 
+                user?.email ? 
                 <Link onClick={handleLogout} className='font-semibold'>Logout</Link>
                 :
                 <Link to='/login' className='font-semibold'>Login</Link> 
             }
         </li>
-        <li><Link><BiShoppingBag className='text-lg'></BiShoppingBag></Link></li>
+        <li><Link to='/orders'><BiShoppingBag className='text-lg'></BiShoppingBag></Link></li>
         <li><Link><BsSearch className='text-lg'></BsSearch></Link></li>
     </>
     return (

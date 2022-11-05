@@ -1,11 +1,13 @@
 import React,{useContext} from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import loginLogo from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../context/AuthProvider/AuthProvider';
 
 const Register = () => {
     const {createUser, handleGoogle} = useContext(AuthContext)
-
+    const navigate = useNavigate();
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
     const handleSignUp = event => {
         event.preventDefault();
         const form = event.target;
@@ -14,7 +16,7 @@ const Register = () => {
 
         createUser(email,password)
         .then(result => {
-            console.log(result.user);
+            form.reset();
         })
         .catch(error => console.log(error.message))
     }
@@ -22,7 +24,7 @@ const Register = () => {
     const signUpWithGoogle = () =>{
         handleGoogle()
         .then(result =>{
-            console.log(result.user);
+            navigate(from, { replace: true })
         })
         .catch(error => console.log(error.message))
     }

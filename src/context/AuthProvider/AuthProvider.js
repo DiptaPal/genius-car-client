@@ -24,13 +24,14 @@ const AuthProvider = ({children}) => {
     }
     const logout = () =>{
         setLoader(true)
+        localStorage.removeItem('genius-token')
         return signOut(auth)
     }
 
     useEffect(()=>{
         const unsubscribe = onAuthStateChanged(auth, currentUser =>{
-            console.log(currentUser);
             setUser(currentUser)
+            setLoader(false)
         });
         return () => {
             return unsubscribe();
