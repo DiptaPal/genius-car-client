@@ -26,6 +26,7 @@ const Checkout = () => {
             email,
             phone,
             message,
+            
         }
         if (phone.length > 11) {
             alert('Phone number should be 10 character or longer')
